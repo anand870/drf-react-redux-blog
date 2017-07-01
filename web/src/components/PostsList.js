@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 
 class PostsList extends Component{
+  componentWillMount(){
+    this.props.fetchPosts();
+  }
+  renderPosts(posts){
+    return posts.map((post)=>{
+      return (
+        <div key={post.id}>{post.title}</div>
+      )
+    })
+  }
   render(){
+    const {posts} =  this.props.postsList;
     return(
-      <h1>This is post list page</h1>
-    )
+      <div>
+        { this.renderPosts(posts)}
+      </div>
+    );
   }
 }
 
