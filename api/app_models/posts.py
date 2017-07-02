@@ -7,6 +7,7 @@ class Post(models.Model):
     description = models.TextField(blank=True,default="")
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    published = models.BooleanField(default=True)
     #it will be an image field but for now working with third party urls
     featured_image = models.CharField(max_length=500)
     author = models.ForeignKey("Author",on_delete=models.SET_NULL,null=True)

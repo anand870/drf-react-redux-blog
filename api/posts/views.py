@@ -1,5 +1,12 @@
-from rest_framework import viewsets,serializers,mixins
+from rest_framework import viewsets,serializers,mixins,filters
+from django_filters.rest_framework import DjangoFilterBackend
+import django_filters
 from app_models.posts import Post
+
+class PostFilter(django_filters.FilterSet):
+    class Meta:
+        model = Post
+        fields = ['author','category']
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,5 +18,9 @@ class PostViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet
 ):
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter(published=True).all()
     serializer_class = PostSerializer
+    filter_class = PostFilter
+    filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
+    search_fields = ('title',)
+    ordering_fields = ('modified_at')

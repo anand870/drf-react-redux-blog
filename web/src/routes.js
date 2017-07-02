@@ -1,14 +1,18 @@
 import React from 'react';
 import {  Route } from 'react-router-dom';
-import PostsListContainer from './containers/PostsListContainer';
-import PostsFeaturedContainer from './containers/PostsFeaturedContainer';
-import PostsNextContainer from './containers/PostsNextContainer';
+import { PostsList } from './components/PostsList';
+import { RelatedPostsList } from './components/RelatedPostsList';
+import { FeaturedPostsList } from './components/FeaturedPostsList';
+//import {PostsFeatured} from './components/PostsFeatured';
+//import {PostsNext} from './components/PostsNext';
 
+//    <Route exact path='/' component={PostsFeatured} />
+//    <Route path='/' component={PostsNext} />
 export const MainRoute = () => (
   <div>
-    <Route exact path='/' component={PostsListContainer} />
-    <Route exact path='/' component={PostsFeaturedContainer} />
-    <Route path='/' component={PostsNextContainer} />
+    <Route exact path='/' component={FeaturedPostsList} />
+    <Route exact path='/' component={PostsList} />
+    <Route path='/' component={RelatedPostsList} />
   </div>
 )
 

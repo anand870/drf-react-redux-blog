@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { MainRoute } from '../routes';
-import SideNav from '../components/SideNav';
-import Header from '../components/Header'
+import { MainRoute } from './routes';
+import { SideNav } from './components/SideNav';
+import { Header } from './components/Header'
 
 class App extends Component {
   render() {
