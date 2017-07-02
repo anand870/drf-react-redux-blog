@@ -2,12 +2,12 @@ from django.db import models
 
 class Post(models.Model):
     title = models.CharField(max_length=500)
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100,unique=True)
     content = models.TextField()
     description = models.TextField(blank=True,default="")
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-    published = models.BooleanField(default=True)
+    modified_at = models.DateTimeField(auto_now=True,db_index=True)
+    published = models.BooleanField(default=True,db_index=True)
     #it will be an image field but for now working with third party urls
     featured_image = models.CharField(max_length=500)
     author = models.ForeignKey("Author",on_delete=models.SET_NULL,null=True)
