@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class PostsList extends Component{
   componentWillMount(){
+    this.props.fetchPosts();
+  }
+  componentWillReceiveProps(){
     this.props.fetchPosts();
   }
   renderPosts(posts){
@@ -10,7 +14,7 @@ class PostsList extends Component{
         <div key={post.id} className="row list-item">
             <h3>{post.title}</h3>
             <p>{post.description}
-            <a href="">Read More</a></p>
+            <Link to={`/${post.slug}/`}>Read More</Link></p>
         </div>
       )
     })

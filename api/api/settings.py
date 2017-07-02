@@ -26,6 +26,7 @@ SECRET_KEY = 'lftxgn()ep*8qy6k!dwv3ul@pc2+mru6*-^+44=09o1$p#ppl*'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
+INTERNAL_IPS = ('localhost','127.0.0.1',)
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'debug_toolbar',
+    'app_utils',
     'app_models',
     'posts',
 ]

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import './RelatedPostsList.css';
 
 class PostsList extends Component{
@@ -17,7 +18,7 @@ class PostsList extends Component{
           <div className="slider-img">
             <img alt={post.title} src={post.featured_image} />
           </div>
-          <h4>{post.title}</h4>
+          <h4><Link to={`/${post.slug}/`}>{post.title}</Link></h4>
         </div>
       )
     })

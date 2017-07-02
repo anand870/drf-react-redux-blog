@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class PostsList extends Component{
   componentWillMount(){
@@ -11,7 +12,7 @@ class PostsList extends Component{
               <div className="top-image-con">
                   <img alt={post.title} src={post.featured_image} />
               </div>
-              <h3>{post.title}</h3>
+             <h3><Link to={`/${post.slug}/`}>{post.title}</Link></h3>
               <span>Thursday, September 18th, 2014</span>
               <p>{post.description}</p>
           </div>
@@ -24,7 +25,7 @@ class PostsList extends Component{
       <div className={(this.props.hidden)?"row hidden":"row"}>
         <div className="col-md-12">
           <h2>Featured Article</h2>
-          { this.renderPosts(posts.slice(3))}
+          { this.renderPosts(posts)}
         </div>
       </div>
     );
