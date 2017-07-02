@@ -32,3 +32,4 @@ class PostViewSet(
     def get_queryset(self):
         if self.action=='retrieve':
             return self.queryset.prefetch_related('category').all()
+        return self.queryset.all()
