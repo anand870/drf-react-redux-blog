@@ -74,6 +74,11 @@ export const searchAction = (query,post_type=POST_TYPE.MAIN_POSTS)=>{
     post_type
   }
 }
+
+/**checks if mainpost is scheduled for a refetch
+ * it uses store's makecall for specific post
+ * Currently enabled for only mainPosts
+ */
 function canMakeCall(state,post_type){
   if(post_type === POST_TYPE.MAIN_POSTS){
     const Posts = state.posts[POST_TYPE.MAIN_POSTS]
@@ -82,6 +87,13 @@ function canMakeCall(state,post_type){
   return true;
 }
 
+/**
+ * Collects the parameters to make the request.
+ * The params are collected/merged from following three sources 
+ * Priority 1 - extraparams passed from component
+ * Priority 2 - scheduled params i.e nextparams in the store
+ * Priority 3 - params in the store
+ */
 function get_params(state,extraparams={},post_type){
     const Posts = state.posts[post_type];
     //get params from next scheduled params and current params
@@ -91,11 +103,14 @@ function get_params(state,extraparams={},post_type){
 
 //Actions 
 export const getPosts = (post_type,params={}) => (dispatch,getState) =>{
+  /*
+   *  It is responsible for fetching the posts of different type
+   */
   const state = getState();
+  //check if a call can be made using makecall param
   if(canMakeCall(state,post_type)){
-    console.log('fetching'+post_type);
+    //collect request parameters
     params = get_params(state,params,post_type);
-    console.log(params);
     dispatch(fetchPosts(post_type));
     return requestPosts(params).then((response)=>{
       if(!response.error){
@@ -116,6 +131,13 @@ export const setSearchTerm = (query,post_type)=>(dispatch,getState)=> {
 }
 
 const shouldFetchPost = (state,nextslug) => {
+  /**
+   * Check if post  can be fetched.If the post is currently loading
+   * it checks if the currently loading post is the requested post.
+   * If not loading then it checks if the current rendered post is same as demanded.
+   * @TODO
+   * Handle error in case multiple requests are in processing
+   */
   let activePost = state.posts.activePost;
   let currentslug = activePost.loading? activePost.info.slug:(activePost.post?activePost.post.slug:null); 
   return nextslug !== currentslug;

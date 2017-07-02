@@ -63,15 +63,51 @@ const INITIAL_STATE = {
 export default function(state=INITIAL_STATE,action){
   switch(action.type){
     case FETCH_POSTS:
+      //Before starting a fetch nextparams and makecall are reset which 
+      //is again changed by other events like search,change filter etc.
+      /** --State Info--
+       *  Empty Post
+       *  Clear Error
+       *  Set Loading to true
+       *  Set makecall to false
+       *  Reset nextparams
+       */
       return { ...state,[action.post_type]:{posts:[],error:null,loading:true,params:{},makecall:false,nextparams:{}}}
     case FETCH_POSTS_SUCCESS:
+      /**
+       * --State Info--
+       *  Set posts to fetched posts
+       *  Set Loading to false
+       *  Clear Error
+       *  Set params to fetched params
+       */
       let params = action.params || {}; 
       return { ...state,[action.post_type]:{posts:action.payload,error:null,loading:false,params:params}};
     case FETCH_POSTS_FAILURE:
-      return { ...state,[action.post_type]:{posts:[],error:action.payload,loading:false}};
+      /**
+       * --State Info--
+       *  Set posts to []
+       *  Set Loading to false
+       *  Set Error
+       *  Set params to empty
+       */
+      return { ...state,[action.post_type]:{posts:[],error:action.payload,loading:false},params:{}};
     case SEARCH:
+    // When SEARCH Action is dipatched then main posts are marked for refetch
+    // This action can be divided into SET_SEARCH and SEARCH if other filters are present
+    /**
+     * --State Info --
+     *  populate nextparams.search
+     *  set makecall to true
+     *
+     */
       return { ...state,searchActive:action.state,[action.post_type]:{...state[action.post_type],nextparams:{search:action.search},makecall:true}}
 
+    /**
+     *--State Info--
+     * Almost same as posts
+     *
+     */
     case FETCH_POST:
       return {...state,activePost:{post:null,loading:true,error:null,slug:null,info:{slug:action.slug}}};
     case FETCH_POST_SUCCESS:
